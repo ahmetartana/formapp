@@ -2,6 +2,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const devConfig = {
 	mode: 'development',
+	output: {
+		publicPath: '/',
+	},
 	devServer: {
 		port: 8080,
 		historyApiFallback: true,

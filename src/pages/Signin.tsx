@@ -9,9 +9,8 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { Link } from 'react-router-dom';
-
-
+import { Link, useHistory } from 'react-router-dom';
+import {  useDispatch } from 'react-redux';
 const useStyles = makeStyles((theme) => ({
 	'@global': {
 		a: {
@@ -43,7 +42,7 @@ interface LoginFormData {
 }
 
 
-export default function SignIn({ onSignIn }: any) {
+export default function SignIn() {
 	const classes = useStyles();
 	const [formData, setFormData] = React.useReducer((prevstate:LoginFormData, nextstate:LoginFormData)=>{ return {...prevstate, ...nextstate}},{
 		email:'ahmet',
@@ -52,10 +51,13 @@ export default function SignIn({ onSignIn }: any) {
 	const handlChange = (event:any) => {
 		setFormData({[event.target.name]:event.target.value});
 	}
+	const dispatch = useDispatch();
+	const history = useHistory();
 
 	const handleSignIn = ()=>{
 		if(formData.email == 'ahmet' && formData.password == '123'){
-			onSignIn();
+			dispatch({type:'LOGIN'});
+			history.push('/dashboard');
 		}
 		// password yanlis
 	}

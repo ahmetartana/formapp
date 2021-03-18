@@ -30,7 +30,7 @@ export const ParentComponent = () => {
                 title={"Parent Component, Count: " + counter}
             />
             <Divider />
-            <Grid container md={12} justify="center">
+            <Grid item container md={12} justify="center">
                 <Grid item md={4}>
                     <ChildComponent onCounterChange={onCounterChange} />
                 </Grid>

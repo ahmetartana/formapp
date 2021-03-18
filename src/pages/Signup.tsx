@@ -10,7 +10,8 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 function Copyright() {
 	return (
@@ -47,8 +48,15 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function SignUp({ onSignIn }: any) {
+export default function SignUp() {
 	const classes = useStyles();
+	const dispatch = useDispatch();
+	const history = useHistory();
+
+	const handleSignUp = () => {
+		dispatch({ type: 'LOGIN' });
+		history.push('/dashboard');
+	}
 
 	return (
 		<Container component='main' maxWidth='xs'>
@@ -124,7 +132,7 @@ export default function SignUp({ onSignIn }: any) {
 						variant='contained'
 						color='primary'
 						className={classes.submit}
-						onClick={onSignIn}
+					    onClick={handleSignUp}
 					>
 						Sign Up
 					</Button>

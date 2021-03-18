@@ -4,8 +4,9 @@ import Button from '@material-ui/core/Button';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import { Link as RouterLink } from 'react-router-dom';
-
+import { Link as RouterLink, useHistory } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { UserLoginState } from '../reducers/userLoginReducer';
 const useStyles = makeStyles((theme) => ({
 	'@global': {
 		ul: {
@@ -32,20 +33,19 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-type HeaderProps = {
-	signedIn: boolean;
-	onSignOut: () => void;
-};
 
-export default function Header({ signedIn, onSignOut }: HeaderProps) {
+
+export default function Header() {
 	const classes = useStyles();
-
+	const { isLoggedIn } = useSelector((state: UserLoginState) => state);
+	const dispatch = useDispatch();
+	const history = useHistory();
 	const onClick = () => {
-		if (signedIn && onSignOut) {
-			onSignOut();
+		if (isLoggedIn) {
+			dispatch({ type: 'LOGOUT' });
+			history.push('/');
 		}
 	};
-
 	return (
 		<React.Fragment>
 			<AppBar
@@ -61,7 +61,7 @@ export default function Header({ signedIn, onSignOut }: HeaderProps) {
 						component={RouterLink}
 						to='/'
 					>App</Typography>
-					{signedIn &&
+					{isLoggedIn &&
 						<Typography
 							variant='h6'
 							color='inherit'
@@ -74,10 +74,10 @@ export default function Header({ signedIn, onSignOut }: HeaderProps) {
 						variant='outlined'
 						className={classes.link}
 						component={RouterLink}
-						to={signedIn ? '/' : '/auth/signin'}
+						to={isLoggedIn ? '/' : '/auth/signin'}
 						onClick={onClick}
 					>
-						{signedIn ? 'Logout' : 'Login'}
+						{isLoggedIn ? 'Logout' : 'Login'}
 					</Button>
 				</Toolbar>
 			</AppBar>
